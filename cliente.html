@@ -56,45 +56,34 @@
 			}
 
 		</style>
-		<script src="http://chat-diatom.rhcloud.com:8080/socket.io.js"></script>
+		
+		<script src="http://localhost:8888/socket.io/socket.io.js"></script>			
 
 		<!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 		<script type="text/javascript">
 			$(function() {
-
-				var PORT = 8080;
-				var IPADDRESS = '127.0.0.1';
-
-				var socket = io.connect(IPADDRESS + ":" + PORT);
-
-				var boton = $("#boton");
-				boton.click(function() {
-
+				var socket = io.connect("127.0.0.1:8888");
+				
+				$("#boton").click(function(){
+					
 					var mensajeUsuario = $("#mensaje-usuario").val();
 					var nombreUsuario = $("#nombre-usuario").val();
-
-					console.debug("mensaje:" + mensajeUsuario);
-					console.debug("nombre:" + nombreUsuario);
-
+					
+					var mensaje = "<span>" + nombreUsuario + " dice:</span>" + mensajeUsuario;
+					
 					socket.emit("mensaje_al_servidor", {
-						usuario : nombreUsuario,
-						mensaje : mensajeUsuario
+						mensajeTexto: mensaje
 					});
+					
 				});
-
-				socket.on("mensaje_al_cliente", function(data) {
-
-					var caja = "<div class='mensaje'>";
-					caja = caja + "<span>" + data.usuario + " dice:</span>" + data.mensaje;
-					caja = caja + "</div>";
-
-					console.debug("caja:" + caja);
-
-					$("#mensajes").append(caja);
+				
+				socket.on("mensaje_al_cliente",function(datos){
+					$("#mensajes").append("<div class='mensaje'>" + datos.mensajeTexto + "</div>");					
 				});
-
+				
+				
 			});
 
 		</script>

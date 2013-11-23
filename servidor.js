@@ -1,41 +1,33 @@
-var http = require('http');
+var http = require("http");
 var fs = require("fs");
 var socketio = require("socket.io");
-var validator = require('validator');
-
-var PORT = 8888;
-var IPADDRESS = '127.0.0.1';
-
 var app = http.createServer(function(request, response) {
 
+	console.log("hola mundo nodejs");
 	fs.readFile("cliente.html", function(error, data) {
-
-		response.writeHead(200, {
-			'Content-Type' : 'text/html'
-		});
+		
+		response.writeHeader(200, {"Content-Type" : "text/html"});
 		response.write(data);
 		response.end();
 	});
 
 });
-
-app.listen(PORT);
+app.listen(8888);
 
 var io = socketio.listen(app);
-
-io.sockets.on("connection", function(socket) {
-
-	socket.on("mensaje_al_servidor", function(data) {
-		var mensajeUsuario = validator.sanitize(data.mensaje).escape();
-		var nombreUsuario = validator.sanitize(data.usuario).escape();
-
-		io.sockets.emit("mensaje_al_cliente", {
-			mensaje : mensajeUsuario,
-			usuario : nombreUsuario
-		});
+io.sockets.on("connection",function(socket){
+	
+	socket.on("mensaje_al_servidor",function(datos){
+		io.sockets.emit("mensaje_al_cliente", datos);
 	});
+});
 
-}); 
 
-console.log("servidor corriendo en IP:" + IPADDRESS);
-console.log("servidor corriendo en puerto:" + PORT);
+
+
+
+
+
+
+
+

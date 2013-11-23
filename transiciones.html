@@ -11,6 +11,11 @@
 				margin-top: 20px;
 				background-color: green;
 				font-size: 20px;
+				transition: width 2s ease;
+			}
+			
+			.animar{
+				width:400px;
 			}
 
 			#caja {
@@ -18,12 +23,24 @@
 				height: 100px;
 				background-color: orange;
 				font-size: 20px;
+				transition: width 2s ease, font-size 2s ease;
 			}
+			
+			#caja:hover{
+				width:400px;
+				font-size:40px;
+			}			
 			
 		</style>
 		<script src="javascript/jquery-1.10.2.min.js"></script>
 		<script>
 			$(function() {
+				
+				$("#boton").click(function(){
+					
+					$(".caja2").addClass("animar");
+					
+				});
 				
 			});
 		</script>
